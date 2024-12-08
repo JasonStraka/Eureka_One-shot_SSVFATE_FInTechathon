@@ -1,0 +1,1 @@
+Eureka团队参加2024FinTechathon深圳国际金融科技大赛人工智能赛道赛题A的作品：One-shot SSVFATE个性化自监督纵向联邦信贷评估系统。
