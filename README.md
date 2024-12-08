@@ -2,15 +2,15 @@
 
 Eureka团队参加2024FinTechathon深圳国际金融科技大赛人工智能赛道赛题A的作品：One-shot SSVFATE个性化自监督纵向联邦信贷评估系统。
 
-其中，./stage1&3 包含协作预训练模块(基于Fate的自监督框架 stage1&3\ssvfate.py)、下游监督任务模块(stage1&3\stage3.py)，./stage2 为本地预训练模块(stage2\main_pretrain.py)，训练顺序为：
+其中，./stage1&3 包含协作预训练模块([基于Fate的自监督框架](stage1&3\ssvfate.py))、[下游监督任务模块](stage1&3\stage3.py)，./stage2 为[本地预训练模块](stage2\main_pretrain.py)，训练顺序为：
 
-(1)纵向联邦协作自监督预训练阶段 stage1&3\stage1.ipynb
+(1)纵向联邦协作自监督预训练阶段 [stage1.ipynb](stage1&3\stage1.ipynb)
 
 
-(2)本地对比知识蒸馏自监督预训练阶段 stage2\stage2.ipynb
+(2)本地对比知识蒸馏自监督预训练阶段 [stage2.ipynb](stage2\stage2.ipynb)
  
 
-(3)下游监督任务微调 stage1&3\stage3.ipynb
+(3)下游监督任务微调 [stage3.ipynb](stage1&3\stage3.ipynb)
 
 
 
@@ -30,6 +30,3 @@ Eureka团队参加2024FinTechathon深圳国际金融科技大赛人工智能赛�
 
 ### 纵向联邦推理服务及结果可视化
 在纵向联邦学习中，各参与方在完成协作训练后，仍需共同合作对新数据进行推理，以满足实际业务需求。为提升用户体验，One-shot SSVFATE在VFL模型完成训练后为各参与方提供了一体化推理服务以及结果可视化功能。通过这一服务，各机构无需共享数据即可快速生成准确的信贷评估结果，并通过直观的界面呈现给用户。同时，为确保推理服务中各机构数据的隐私安全，系统对用户数据进行隔离处理，通过FATE-Server提供的API接口调用预测服务，在保证数据隐私的同时，实现高效的实时推理。此外，系统配备了数据溯源机制，对所有数据传输和模型调用进行记录和管理，以满足金融机构的合规性要求。One-shot SSVFATE提供的纵向联邦推理服务不仅能够简化推理过程，提高各参与方的协作效率，还能保障推理阶段数据隐私，满足了金融信贷场景中对数据安全和用户体验的双重需求。
-
-![简介](./images/1.png)
-![简介](./images/2.png)
