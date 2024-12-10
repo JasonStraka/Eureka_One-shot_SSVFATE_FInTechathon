@@ -87,24 +87,8 @@ class SSClient(ClientTemplate):
     def compute_cross_loss(self, x, y, z_cross_own, z_cross_received, epoch, sim=None, logits_sim_target_avg=None):
         meta = {}
         loss_debug = []
-
-        if isinstance(z_cross_received, list):
-            loss = torch.tensor(0).to(self.args.device)
-            for z_item in z_cross_received:
-                loss_ind = self.cross_criterion(z_cross_own, z_item.detach())
-                loss_debug.append(loss_ind.item())
-                loss = loss + loss_ind
-            loss = loss / len(z_cross_received)
-            if self.args.use_FISL != 0:
-                loss_sim = self.cross_criterion_sim(sim, logits_sim_target_avg.detach())
-                # loss_sim = self.cross_criterion(sim, logits_sim_target_avg.detach())
-                loss = loss + self.args.dis_power*loss_sim
-        else:
-            loss = self.cross_criterion(z_cross_own, z_cross_received.detach())
-            if self.args.use_FISL != 0:
-                # loss_sim = self.cross_criterion(sim, logits_sim_target_avg.detach())
-                loss_sim = self.cross_criterion_sim(sim, logits_sim_target_avg.detach())
-                loss = loss + self.args.dis_power*loss_sim
+        loss = torch.tensor(0).to(self.args.device)
+        
         meta['loss_debug'] = loss_debug
         return loss, loss_debug
 

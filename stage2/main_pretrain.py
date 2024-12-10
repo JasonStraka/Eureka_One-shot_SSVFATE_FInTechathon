@@ -98,8 +98,8 @@ def main():
         # assume the first party holds labels
         # 'first' mode means party 1 sends its z_1 to the rest and other parties only sends their z_i to party 1
         # other comm_mode not implemented, e.g. 'all'
-        # if args.comm_mode == 'first':
-        #     train_cross_model(train_loader_aligned, client_list, epoch, args, tb_writer)
+        # if args.comm_mode == 'first':   # 已迁移至FATE
+        #     train_cross_model(train_loader_aligned, client_list, epoch, args, tb_writer) 
 
         if args.local_ssl != 0:
             train_local_model(train_loader_local, client_list, Server, epoch, args, tb_writer)
@@ -240,7 +240,7 @@ def step_cross_model(data_loader, client_list, epoch, args, step_mode='train', d
         target = data_Y.view(-1).long().to(args.device)
 
         N = target.size(0)
-        # features computed locally by each party
+        # features computed locally by each party 计算方法涉及创新点，若需交流可以联系作者
         exchanged_features = [client_list[i].get_exchanged_feature(data_X[i]) for i in range(k)]
         exchanged_features_for_transfer = [feature.detach().clone() for feature in exchanged_features]
 

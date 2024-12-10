@@ -18,10 +18,7 @@ def get_clients(encoder_local_bottom_list, encoder_local_list, encoder_cross_lis
         client_list.append(client)
     return client_list
 
-# def off_diagonal(x):
-#     n, m = x.shape
-#     assert n == m
-#     return x.flatten()[:-1].view(n - 1, n + 1)[:, 1:].flatten()
+
 class ClientTemplate():
 
     def __init__(self, client_idx, models, args):
@@ -80,32 +77,7 @@ class ClientTemplate():
             z_cross = self.projection_mlp_cross(h_cross)
         return z_cross
 
-    def _calculate_isd_sim(self, features):
-        sim_q = torch.mm(features, features.T)
-        logits_mask = torch.scatter(
-            torch.ones_like(sim_q),
-            1,
-            torch.arange(sim_q.size(0)).view(-1, 1).to(self.device),
-            0
-        )
-        row_size = sim_q.size(0)
-        sim_q = sim_q[logits_mask.bool()].view(row_size, -1)
-        return sim_q / self.args.temp
 
-    def get_sim_feature(self, x):
-        if isinstance(x, list):
-            h_cross = self.encoder_cross(x[0].float().to(self.args.device)).flatten(start_dim=1)
-            # z_cross = self.projection_mlp_cross(h_cross)
-            features = F.normalize(h_cross, dim=1)
-            # features = F.normalize(z_cross, dim=1)
-        else:
-            h_cross = self.encoder_cross(x).flatten(start_dim=1)
-            # z_cross = self.projection_mlp_cross(h_cross)
-            features = F.normalize(h_cross, dim=1)
-            # features = F.normalize(z_cross, dim=1)
-        logits_sim = self._calculate_isd_sim(features)
-
-        return logits_sim
 
     def adjust_learning_rate(self):
         for scheduler in self.scheduler_list:
@@ -153,10 +125,6 @@ class ClientTemplate():
             self.opt_preprocess('cross')
             loss, cross_meta = self.compute_cross_loss(x, y, z_cross_own, z_cross_received, epoch, sim, logits_sim_target_avg)
 
-            # if self.args.use_FISL != 0:
-            #     loss_distill = F.kl_div(sim, logits_sim_target_avg, reduction='batchmean')
-            #     loss = loss + self.args.dis_power*loss_distill
-            # torch.autograd.set_detect_anomaly(True)
             loss.backward(retain_graph=True)
             self.opt_postprocess('cross')
 
@@ -219,9 +187,7 @@ class ClientTemplate():
 
     def valid_cross_model(self, x, y, z_cross_own, z_cross_received, epoch, sim=None, logits_sim_target_avg=None):
         loss, cross_meta = self.compute_cross_loss(x, y, z_cross_own, z_cross_received, epoch, sim, logits_sim_target_avg)
-        # if self.args.use_FISL != 0:
-        #     loss_distill = F.kl_div(sim, logits_sim_target_avg, reduction='batchmean')
-        #     loss = loss + self.args.dis_power * loss_distill
+ 
         return loss.item(), cross_meta
 
     def valid_local_model(self, x, y, epoch):
