@@ -1,6 +1,6 @@
 # One-shot SSVFATE个性化自监督纵向联邦信贷评估系统
 
-Eureka团队参加2024FinTechathon深圳国际金融科技大赛人工智能赛道赛题A的作品：One-shot SSVFATE个性化自监督纵向联邦信贷评估系统。答辩还是考验心态和反应能力的。
+Eureka团队参加2024FinTechathon深圳国际金融科技大赛人工智能赛道赛题A的作品：One-shot SSVFATE个性化自监督纵向联邦信贷评估系统。答辩还是考验心态和反应能力的。非常感谢微众银行和深圳大学的各位老师，为进一步完善作品提出了宝贵的意见。
 
 其中，./stage1&3 包含协作预训练模块([基于Fate的自监督框架](stage1&3/ssvfate.py))、[下游监督任务模块](stage1&3/stage3.py)，./stage2 为[本地预训练模块](stage2/main_pretrain.py)，训练顺序为：
 
